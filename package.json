@@ -1,11 +1,7 @@
 {
   "name": "rxjs-observable-store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A state management solution implemented using RxJS to mimic Redux architecture.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jurebajt/rxjs-observable-store.git"
-  },
   "keywords": [
     "rxjs",
     "observable",
@@ -14,12 +10,16 @@
     "angular",
     "state management"
   ],
-  "author": "Jure Bajt",
   "license": "MIT",
+  "author": "Jure Bajt",
+  "homepage": "https://jurebajt.com/state-management-in-angular-with-observable-store-services/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jurebajt/rxjs-observable-store.git"
+  },
   "bugs": {
     "url": "https://github.com/jurebajt/rxjs-observable-store/issues"
   },
-  "homepage": "https://github.com/jurebajt/rxjs-observable-store#readme",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
