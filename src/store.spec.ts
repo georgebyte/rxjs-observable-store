@@ -1,14 +1,50 @@
 import {Store} from './store';
 
-class TestStore extends Store<any> {
-    constructor () {
-        super({
-            value: 'initial value',
-        });
+interface ITestStoreState {
+    value?: string;
+    oneSublevel: {
+        value1: string,
+        value2: number,
+        value3?: number,
+    };
+    twoSublevels: {
+        middleSublevel: {
+            lastSublevel: {
+                value: string,
+            }
+        },
+        anotherMiddleSublevel: {
+            value: number,
+        },
+        optionalMiddleSublevel?: {
+            lastSublevel?: {
+                value: string,
+            },
+        },
     }
+}
 
-    updateState (nextState: any): void {
-        this.setState(nextState);
+class TestStoreState implements ITestStoreState {
+    value = '';
+    oneSublevel = {
+        value1: '',
+        value2: null,
+    };
+    twoSublevels = {
+        middleSublevel: {
+            lastSublevel: {
+                value: ''
+            }
+        },
+        anotherMiddleSublevel: {
+            value: null,
+        }
+    }
+}
+
+class TestStore extends Store<ITestStoreState> {
+    constructor () {
+        super(new TestStoreState());
     }
 }
 
@@ -19,20 +55,69 @@ describe('Store', () => {
         store = new TestStore();
     });
 
-    it('should set correct initial state', () => {
-        expect(store.state).toEqual({value: 'initial value'});
+    it('should update state on specified path', () => {
+        store.setState({
+            oneSublevel: {
+                value1: '',
+                value2: null,
+            },
+            twoSublevels: {
+                middleSublevel: {
+                    lastSublevel: {
+                        value: '',
+                    },
+                },
+                anotherMiddleSublevel: {
+                    value: 123,
+                },
+            },
+        });
     });
 
-    it('should correctly update the state when calling setState', () => {
-        store.updateState({value: 'updated value'});
-        expect(store.state).toEqual({value: 'updated value'});
+    it('should update state on specified path', () => {
+        store.updateState('abc', 'oneSublevel', 'value1');
+        expect(store.state).toEqual({
+            value: '',
+            oneSublevel: {
+                value1: 'abc',
+                value2: null,
+            },
+            twoSublevels: {
+                middleSublevel: {
+                    lastSublevel: {
+                        value: ''
+                    }
+                },
+                anotherMiddleSublevel: {
+                    value: null,
+                },
+            }
+        });
     });
 
-    it('should push updated state to subscribers', done => {
-        store.updateState({value: 'updated value'});
-        store.state$.subscribe(state => {
-            expect(state).toEqual({value: 'updated value'});
-            done();
+    it('should update state on specified path', () => {
+        store.updateState({value: 'new value'}, 'twoSublevels', 'optionalMiddleSublevel', 'lastSublevel');
+        expect(store.state).toEqual({
+            value: '',
+            oneSublevel: {
+                value1: '',
+                value2: null,
+            },
+            twoSublevels: {
+                middleSublevel: {
+                    lastSublevel: {
+                        value: ''
+                    }
+                },
+                anotherMiddleSublevel: {
+                    value: null,
+                },
+                optionalMiddleSublevel: {
+                    lastSublevel: {
+                        value: 'new value'
+                    }
+                }
+            }
         });
     });
 });
