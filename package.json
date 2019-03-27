@@ -1,6 +1,6 @@
 {
   "name": "rxjs-observable-store",
-  "version": "1.0.1",
+  "version": "2.0.0-rc.0",
   "description": "A state management solution implemented using RxJS to mimic Redux architecture.",
   "keywords": [
     "rxjs",
