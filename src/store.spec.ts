@@ -1,49 +1,145 @@
 import {Store} from './store';
 
-interface ITestStoreState {
-    value?: string;
+interface TestStoreStateInterface {
+    value1: string;
+    value2: string;
+    value3?: string;
     oneSublevel: {
-        value1: string,
-        value2: number,
-        value3?: number,
+        value1: string;
+        value2: string;
+        value3?: string;
     };
-    twoSublevels: {
-        middleSublevel: {
-            lastSublevel: {
-                value: string,
-            }
-        },
-        anotherMiddleSublevel: {
-            value: number,
-        },
-        optionalMiddleSublevel?: {
-            lastSublevel?: {
-                value: string,
-            },
-        },
-    }
+    twoSublevels?: {
+        firstSublevel1: {
+            secondSublevel1: {
+                value1: string;
+                value2: string;
+                value3?: string;
+            };
+            secondSublevel2: {
+                value1: string;
+                value2: string;
+                value3?: string;
+            };
+        };
+        firstSublevel2: {
+            secondSublevel1: {
+                value1: string;
+                value2: string;
+                value3?: string;
+            };
+            secondSublevel2: {
+                value1: string;
+                value2: string;
+                value3?: string;
+            };
+        };
+        firstSublevel3?: {
+            secondSublevel1: {
+                value1: string;
+                value2: string;
+                value3?: string;
+            };
+            secondSublevel2: {
+                value1: string;
+                value2: string;
+                value3?: string;
+            };
+        };
+    };
+    fiveSublevels?: {
+        firstSublevel1: {
+            secondSublevel1: {
+                thirdSublevel1: {
+                    fourthSublevel1: {
+                        fifthSublevel1: {
+                            value1: string;
+                            value2: string;
+                            value3?: string;
+                        };
+                        fifthSublevel2: {
+                            value1: string;
+                            value2: string;
+                            value3?: string;
+                        };
+                    };
+                    fourthSublevel2?: {
+                        fifthSublevel1: {
+                            value1: string;
+                            value2: string;
+                            value3?: string;
+                        };
+                    };
+                };
+            };
+            secondSublevel2: {
+                value1: string;
+                value2: string;
+                value3?: string;
+            };
+        };
+    };
 }
 
-class TestStoreState implements ITestStoreState {
-    value = '';
+class TestStoreState implements TestStoreStateInterface {
+    value1 = 'root: value1';
+    value2 = 'root: value2';
     oneSublevel = {
-        value1: '',
-        value2: null,
+        value1: 'oneSublevel: value1',
+        value2: 'oneSublevel: value2',
     };
     twoSublevels = {
-        middleSublevel: {
-            lastSublevel: {
-                value: ''
-            }
+        firstSublevel1: {
+            secondSublevel1: {
+                value1: 'twoSublevels-firstSublevel1-secondSublevel1: value1',
+                value2: 'twoSublevels-firstSublevel1-secondSublevel1: value2',
+            },
+            secondSublevel2: {
+                value1: 'twoSublevels-firstSublevel1-secondSublevel2: value1',
+                value2: 'twoSublevels-firstSublevel1-secondSublevel2: value2',
+            },
         },
-        anotherMiddleSublevel: {
-            value: null,
-        }
-    }
+        firstSublevel2: {
+            secondSublevel1: {
+                value1: 'twoSublevels-firstSublevel2-secondSublevel1: value1',
+                value2: 'twoSublevels-firstSublevel2-secondSublevel1: value2',
+            },
+            secondSublevel2: {
+                value1: 'twoSublevels-firstSublevel2-secondSublevel2: value1',
+                value2: 'twoSublevels-firstSublevel2-secondSublevel2: value2',
+            },
+        },
+    };
+    fiveSublevels = {
+        firstSublevel1: {
+            secondSublevel1: {
+                thirdSublevel1: {
+                    fourthSublevel1: {
+                        fifthSublevel1: {
+                            value1:
+                                'fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel1-fifthSublevel1: value1',
+                            value2:
+                                'fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel1-fifthSublevel1: value2',
+                        },
+                        fifthSublevel2: {
+                            value1:
+                                'fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel1-fifthSublevel2: value1',
+                            value2:
+                                'fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel1-fifthSublevel2: value2',
+                        },
+                    },
+                },
+            },
+            secondSublevel2: {
+                value1: 'fiveSublevels-firstSublevel1-secondSublevel2: value1',
+                value2: 'fiveSublevels-firstSublevel1-secondSublevel2: value2',
+            },
+        },
+    };
 }
 
-class TestStore extends Store<ITestStoreState> {
-    constructor () {
+class TestStore extends Store<TestStoreStateInterface> {
+    constructor() {
         super(new TestStoreState());
     }
 }
@@ -55,69 +151,214 @@ describe('Store', () => {
         store = new TestStore();
     });
 
-    it('should update state on specified path', () => {
-        store.setState({
+    it('should set state correctly via setState() call', () => {
+        const mockedNewState = {
+            value1: 'root: value1 updated',
+            value2: 'root: value2 updated',
             oneSublevel: {
-                value1: '',
-                value2: null,
+                value1: 'oneSublevel: value1 updated',
+                value2: 'oneSublevel: value2 updated',
+                value3: 'oneSublevel: value3 updated',
             },
-            twoSublevels: {
-                middleSublevel: {
-                    lastSublevel: {
-                        value: '',
-                    },
-                },
-                anotherMiddleSublevel: {
-                    value: 123,
-                },
-            },
-        });
+        };
+        store.setState(mockedNewState);
+        expect(store.state).toEqual(mockedNewState);
     });
 
-    it('should update state on specified path', () => {
-        store.updateState('abc', 'oneSublevel', 'value1');
-        expect(store.state).toEqual({
-            value: '',
-            oneSublevel: {
-                value1: 'abc',
-                value2: null,
-            },
-            twoSublevels: {
-                middleSublevel: {
-                    lastSublevel: {
-                        value: ''
-                    }
-                },
-                anotherMiddleSublevel: {
-                    value: null,
-                },
-            }
-        });
+    it('should update values correctly on "root"', () => {
+        const newValue = 'root: value1 updated';
+        const expectedState = new TestStoreState();
+        Object.assign(expectedState, {value1: newValue});
+        store.updateState(newValue, 'value1');
+        expect(store.state).toEqual(expectedState);
     });
 
-    it('should update state on specified path', () => {
-        store.updateState({value: 'new value'}, 'twoSublevels', 'optionalMiddleSublevel', 'lastSublevel');
-        expect(store.state).toEqual({
-            value: '',
-            oneSublevel: {
-                value1: '',
-                value2: null,
+    it('should create values correctly on "root" for non-existing paths', () => {
+        const newValue = 'root: value3 created';
+        const expectedState = new TestStoreState();
+        Object.assign(expectedState, {value3: newValue});
+        store.updateState(newValue, 'value3');
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should update values correctly on "oneSublevel"', () => {
+        const newValue = 'oneSublevel: value2 updated';
+        const expectedState = new TestStoreState();
+        Object.assign(expectedState.oneSublevel, {value2: newValue});
+        store.updateState(newValue, 'oneSublevel', 'value2');
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should create values correctly on "oneSublevel" for non-existing paths', () => {
+        const newValue = 'oneSublevel: value3 created';
+        const expectedState = new TestStoreState();
+        Object.assign(expectedState.oneSublevel, {value3: newValue});
+        store.updateState(newValue, 'oneSublevel', 'value3');
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should update values correctly on "twoSublevels-firstSublevel1-secondSublevel1"', () => {
+        const newValue =
+            'twoSublevels-firstSublevel1-secondSublevel1: value1 updated';
+        const expectedState = new TestStoreState();
+        Object.assign(
+            expectedState.twoSublevels.firstSublevel1.secondSublevel1,
+            {value1: newValue}
+        );
+        store.updateState(
+            newValue,
+            'twoSublevels',
+            'firstSublevel1',
+            'secondSublevel1',
+            'value1'
+        );
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should create values correctly on "twoSublevels-firstSublevel1-secondSublevel1" for non-existing-paths', () => {
+        const newValue =
+            'twoSublevels-firstSublevel1-secondSublevel1: value3 created';
+        const expectedState = new TestStoreState();
+        Object.assign(
+            expectedState.twoSublevels.firstSublevel1.secondSublevel1,
+            {value3: newValue}
+        );
+        store.updateState(
+            newValue,
+            'twoSublevels',
+            'firstSublevel1',
+            'secondSublevel1',
+            'value3'
+        );
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should update values correctly on "twoSublevels-firstSublevel2-secondSublevel2"', () => {
+        const newValue =
+            'twoSublevels-firstSublevel2-secondSublevel2: value2 updated';
+        const expectedState = new TestStoreState();
+        Object.assign(
+            expectedState.twoSublevels.firstSublevel2.secondSublevel2,
+            {value2: newValue}
+        );
+        store.updateState(
+            newValue,
+            'twoSublevels',
+            'firstSublevel2',
+            'secondSublevel2',
+            'value2'
+        );
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should create values correctly on "twoSublevels-firstSublevel2-secondSublevel2" for non-existing-paths', () => {
+        const newValue =
+            'twoSublevels-firstSublevel2-secondSublevel2: value3 created';
+        const expectedState = new TestStoreState();
+        Object.assign(
+            expectedState.twoSublevels.firstSublevel2.secondSublevel2,
+            {value3: newValue}
+        );
+        store.updateState(
+            newValue,
+            'twoSublevels',
+            'firstSublevel2',
+            'secondSublevel2',
+            'value3'
+        );
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should create values correctly on "twoSublevels" for non-existing-paths', () => {
+        const newValue = {
+            secondSublevel1: {
+                value1:
+                    'twoSublevels-firstSublevel3-secondSublevel1: value1 created',
+                value2:
+                    'twoSublevels-firstSublevel3-secondSublevel1: value2 created',
             },
-            twoSublevels: {
-                middleSublevel: {
-                    lastSublevel: {
-                        value: ''
-                    }
-                },
-                anotherMiddleSublevel: {
-                    value: null,
-                },
-                optionalMiddleSublevel: {
-                    lastSublevel: {
-                        value: 'new value'
-                    }
-                }
-            }
-        });
+            secondSublevel2: {
+                value1:
+                    'twoSublevels-firstSublevel3-secondSublevel2: value1 created',
+                value2:
+                    'twoSublevels-firstSublevel3-secondSublevel2: value2 created',
+            },
+        };
+        const expectedState = new TestStoreState();
+        Object.assign(expectedState.twoSublevels, {firstSublevel3: newValue});
+        store.updateState(newValue, 'twoSublevels', 'firstSublevel3');
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should update values correctly on "fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel1-fifthSublevel1"', () => {
+        const newValue =
+            'fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel1-fifthSublevel1: value2 updated';
+        const expectedState = new TestStoreState();
+        Object.assign(
+            expectedState.fiveSublevels.firstSublevel1.secondSublevel1
+                .thirdSublevel1.fourthSublevel1.fifthSublevel1,
+            {value2: newValue}
+        );
+        store.updateState(
+            newValue,
+            'fiveSublevels',
+            'firstSublevel1',
+            'secondSublevel1',
+            'thirdSublevel1',
+            'fourthSublevel1',
+            'fifthSublevel1',
+            'value2'
+        );
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should create values correctly on "fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel1-fifthSublevel2" for non-existing-paths', () => {
+        const newValue =
+            'fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel1-fifthSublevel2: value3 created';
+        const expectedState = new TestStoreState();
+        Object.assign(
+            expectedState.fiveSublevels.firstSublevel1.secondSublevel1
+                .thirdSublevel1.fourthSublevel1.fifthSublevel2,
+            {value3: newValue}
+        );
+        store.updateState(
+            newValue,
+            'fiveSublevels',
+            'firstSublevel1',
+            'secondSublevel1',
+            'thirdSublevel1',
+            'fourthSublevel1',
+            'fifthSublevel2',
+            'value3'
+        );
+        expect(store.state).toEqual(expectedState);
+    });
+
+    it('should create values correctly on "fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1" for non-existing-paths', () => {
+        const newValue = {
+            fifthSublevel1: {
+                value1:
+                    'fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel2-fifthSublevel1: value1 created',
+                value2:
+                    'fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel2-fifthSublevel1: value2 created',
+                value3:
+                    'fiveSublevels-firstSublevel1-secondSublevel1-thirdSublevel1-fourthSublevel2-fifthSublevel1: value3 created',
+            },
+        };
+        const expectedState = new TestStoreState();
+        Object.assign(
+            expectedState.fiveSublevels.firstSublevel1.secondSublevel1
+                .thirdSublevel1,
+            {fourthSublevel2: newValue}
+        );
+        store.updateState(
+            newValue,
+            'fiveSublevels',
+            'firstSublevel1',
+            'secondSublevel1',
+            'thirdSublevel1',
+            'fourthSublevel2'
+        );
+        expect(store.state).toEqual(expectedState);
     });
 });
