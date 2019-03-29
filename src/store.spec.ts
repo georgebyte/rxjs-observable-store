@@ -1,6 +1,19 @@
 import {Store} from './store';
 
+interface OptionalSublevel {
+    firstSublevel1?: {
+        value1: string;
+        value2: string;
+        value3?: string;
+    }
+}
+
+// TODO (jurebajt): Test when stateSubtree[key] === null
+// TODO (jurebajt): Test setting value to undefined
+
 class TestStoreState {
+    // TODO (jurebajt): Test this case
+    optionalSublevel?: OptionalSublevel = {};
     twoSublevels = {
         firstSublevel1: {
             secondSublevel1: {
