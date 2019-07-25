@@ -113,7 +113,7 @@ export class Store<T> {
                 [key]: value,
             };
         }
-        if (stateSubtree[key] === undefined) {
+        if (stateSubtree[key] === undefined || stateSubtree[key] === null) {
             return {
                 ...stateSubtree,
                 [key]: this.createStateSubtree(value, path.slice(1)),

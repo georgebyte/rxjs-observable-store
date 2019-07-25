@@ -5,7 +5,7 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./lib",
-    "strict": true
+    "strict": false
   },
   "include": [
     "src/index.ts"
