@@ -8,38 +8,18 @@ A state management solution implemented using RxJS to mimic Redux architecture.
 
 Read my blog post [State management in Angular with observable store services](https://jurebajt.com/state-management-in-angular-with-observable-store-services/) to learn more about how to use the `rxjs-observable-store` package to manage state in front-end applications.
 
-## Installation
+## Getting started
+
+**Prerequisites:**  
+Lowest TypeScript support starts at version 3.5.
+
+**Installation:**
 
 ```bash
 npm install rxjs-observable-store --save
 ```
 
-## API
-
-**Store's public properties:**
-
-**`state: <S>`**  
-Current state snapshot.
-
-**`state$: Observable<S>`**  
-RxJS Observable of state.
-
-**Store's public methods:**
-
-**`setState(nextState: S): void`**  
-Set store's state to `nextState`.
-
-**`patchState(value: any, ...path: (string|number|symbol)[]): void`**  
-Set store's state at `path` to `value`.
-
-Note:  
-When using TypeScript, errors are thrown for nonexisting `path` and wrong `value` type:
-![patchState typed value](images/patchState-typed-value.gif "patchState typed value")
-
-Path autocompletion works as well (10 levels deep):
-![patchState path autocompletion](images/patchState-path-autocompletion.gif "patchState path autocompletion")
-
-## Usage
+**Usage example:**
 
 ```typescript
 import {Store} from 'rxjs-observable-store';
@@ -98,3 +78,27 @@ class TestComponent {
     }
 }
 ```
+
+## API
+
+**Store's public properties:**
+
+**`state: <S>`**  
+Current state snapshot.
+
+**`state$: Observable<S>`**  
+RxJS Observable of state.
+
+**Store's public methods:**
+
+**`setState(nextState: S): void`**  
+Set store's state to `nextState`.
+
+**`patchState(value: any, ...path: (string|number|symbol)[]): void`**  
+Set store's state at `path` to `value`.  
+Notes:  
+
+* When using TypeScript, errors are thrown for nonexisting `path` and wrong `value` type:  
+![patchState typed value](images/patchState-typed-value.gif "patchState typed value")  
+* Path autocompletion works as well (10 levels deep):  
+![patchState path autocompletion](images/patchState-path-autocompletion.gif "patchState path autocompletion")
