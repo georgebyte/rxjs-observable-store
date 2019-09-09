@@ -40,6 +40,9 @@
     },
     "testRegex": "/src/.*\\.spec\\.ts$"
   },
+  "dependencies": {
+    "ts-toolbelt": "3.8.72"
+  },
   "peerDependencies": {
     "rxjs": "6.x"
   },
