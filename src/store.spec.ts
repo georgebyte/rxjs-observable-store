@@ -1,6 +1,15 @@
 import {Store} from './store';
 
+interface OptionalSublevel {
+    firstSublevel1?: {
+        value1: string;
+        value2: string;
+        value3?: string;
+    };
+}
+
 class TestStoreState {
+    optionalSublevel?: OptionalSublevel = {};
     twoSublevels = {
         firstSublevel1: {
             secondSublevel1: {
@@ -25,6 +34,13 @@ interface TestStoreStateInterface {
     value1: string;
     value2: string;
     value3?: string;
+    nullableTwoSublevels?: {
+        firstSublevel1?: {
+            secondSublevel1: {
+                value1: string;
+            };
+        };
+    };
     oneSublevel: {
         value1: string;
         value2: string;
@@ -109,6 +125,7 @@ class TestStoreImplementingInterfaceState implements TestStoreStateInterface {
         value1: 'oneSublevel: value1',
         value2: 'oneSublevel: value2',
     };
+    nullableTwoSublevels = {firstSublevel1: null};
     twoSublevels = {
         firstSublevel1: {
             secondSublevel1: {
@@ -196,6 +213,21 @@ describe('Store', () => {
             expect(store.state).toEqual(mockedNewState);
         });
 
+        it('should create values correctly on "optionalSublevel-firstSublevel1" when "optionalSublevel" === {}', () => {
+            const newValue = 'optionalSublevel-firstSublevel1: value2 created';
+            const expectedState = new TestStoreState();
+            Object.assign(expectedState.optionalSublevel, {
+                firstSublevel1: {value2: newValue},
+            });
+            store.patchState(
+                newValue,
+                'optionalSublevel',
+                'firstSublevel1',
+                'value2'
+            );
+            expect(store.state).toEqual(expectedState);
+        });
+
         it('should update values correctly on "twoSublevels-firstSublevel1-secondSublevel2"', () => {
             const newValue =
                 'twoSublevels-firstSublevel1-secondSublevel2: value2 updated';
@@ -204,7 +236,7 @@ describe('Store', () => {
                 expectedState.twoSublevels.firstSublevel1.secondSublevel2,
                 {value2: newValue}
             );
-            store.updateState(
+            store.patchState(
                 newValue,
                 'twoSublevels',
                 'firstSublevel1',
@@ -240,7 +272,7 @@ describe('Store', () => {
             const newValue = 'root: value1 updated';
             const expectedState = new TestStoreImplementingInterfaceState();
             Object.assign(expectedState, {value1: newValue});
-            store.updateState(newValue, 'value1');
+            store.patchState(newValue, 'value1');
             expect(store.state).toEqual(expectedState);
         });
 
@@ -248,7 +280,26 @@ describe('Store', () => {
             const newValue = 'root: value3 created';
             const expectedState = new TestStoreImplementingInterfaceState();
             Object.assign(expectedState, {value3: newValue});
-            store.updateState(newValue, 'value3');
+            store.patchState(newValue, 'value3');
+            expect(store.state).toEqual(expectedState);
+        });
+
+        it('should create values correctly on "nullableTwoSublevels" when "firstSublevel1" === null', () => {
+            const newValue =
+                'nullableTwoSublevels-firstSublevel1-secondSublevel1: value1 created';
+            const expectedState = new TestStoreImplementingInterfaceState();
+            Object.assign(expectedState, {
+                nullableTwoSublevels: {
+                    firstSublevel1: {secondSublevel1: {value1: newValue}},
+                },
+            });
+            store.patchState(
+                newValue,
+                'nullableTwoSublevels',
+                'firstSublevel1',
+                'secondSublevel1',
+                'value1'
+            );
             expect(store.state).toEqual(expectedState);
         });
 
@@ -256,7 +307,7 @@ describe('Store', () => {
             const newValue = 'oneSublevel: value2 updated';
             const expectedState = new TestStoreImplementingInterfaceState();
             Object.assign(expectedState.oneSublevel, {value2: newValue});
-            store.updateState(newValue, 'oneSublevel', 'value2');
+            store.patchState(newValue, 'oneSublevel', 'value2');
             expect(store.state).toEqual(expectedState);
         });
 
@@ -264,7 +315,7 @@ describe('Store', () => {
             const newValue = 'oneSublevel: value3 created';
             const expectedState = new TestStoreImplementingInterfaceState();
             Object.assign(expectedState.oneSublevel, {value3: newValue});
-            store.updateState(newValue, 'oneSublevel', 'value3');
+            store.patchState(newValue, 'oneSublevel', 'value3');
             expect(store.state).toEqual(expectedState);
         });
 
@@ -276,7 +327,7 @@ describe('Store', () => {
                 expectedState.twoSublevels.firstSublevel1.secondSublevel1,
                 {value1: newValue}
             );
-            store.updateState(
+            store.patchState(
                 newValue,
                 'twoSublevels',
                 'firstSublevel1',
@@ -294,7 +345,7 @@ describe('Store', () => {
                 expectedState.twoSublevels.firstSublevel1.secondSublevel1,
                 {value3: newValue}
             );
-            store.updateState(
+            store.patchState(
                 newValue,
                 'twoSublevels',
                 'firstSublevel1',
@@ -312,7 +363,7 @@ describe('Store', () => {
                 expectedState.twoSublevels.firstSublevel2.secondSublevel2,
                 {value2: newValue}
             );
-            store.updateState(
+            store.patchState(
                 newValue,
                 'twoSublevels',
                 'firstSublevel2',
@@ -330,7 +381,7 @@ describe('Store', () => {
                 expectedState.twoSublevels.firstSublevel2.secondSublevel2,
                 {value3: newValue}
             );
-            store.updateState(
+            store.patchState(
                 newValue,
                 'twoSublevels',
                 'firstSublevel2',
@@ -359,7 +410,7 @@ describe('Store', () => {
             Object.assign(expectedState.twoSublevels, {
                 firstSublevel3: newValue,
             });
-            store.updateState(newValue, 'twoSublevels', 'firstSublevel3');
+            store.patchState(newValue, 'twoSublevels', 'firstSublevel3');
             expect(store.state).toEqual(expectedState);
         });
 
@@ -372,7 +423,7 @@ describe('Store', () => {
                     .thirdSublevel1.fourthSublevel1.fifthSublevel1,
                 {value2: newValue}
             );
-            store.updateState(
+            store.patchState(
                 newValue,
                 'fiveSublevels',
                 'firstSublevel1',
@@ -394,7 +445,7 @@ describe('Store', () => {
                     .thirdSublevel1.fourthSublevel1.fifthSublevel2,
                 {value3: newValue}
             );
-            store.updateState(
+            store.patchState(
                 newValue,
                 'fiveSublevels',
                 'firstSublevel1',
@@ -424,7 +475,7 @@ describe('Store', () => {
                     .thirdSublevel1,
                 {fourthSublevel2: newValue}
             );
-            store.updateState(
+            store.patchState(
                 newValue,
                 'fiveSublevels',
                 'firstSublevel1',

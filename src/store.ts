@@ -1,111 +1,133 @@
 import {Observable, BehaviorSubject} from 'rxjs';
+import {Object, Tuple} from 'ts-toolbelt';
 
-export class Store<T> {
-    state$: Observable<T>;
-    private _state$: BehaviorSubject<T>;
+type Index = string | number | symbol;
 
-    protected constructor(initialState: T) {
+export class Store<S extends object> {
+    state$: Observable<S>;
+    private _state$: BehaviorSubject<S>;
+
+    protected constructor(initialState: S) {
         this._state$ = new BehaviorSubject(initialState);
         this.state$ = this._state$.asObservable();
     }
 
-    get state(): T {
+    get state(): S {
         return this._state$.getValue();
     }
 
-    setState(nextState: T) {
+    setState(nextState: S) {
         this._state$.next(nextState);
     }
 
     // prettier-ignore
-    updateState<
-        S extends T,
-        V extends NonNullable<S>[P1],
-        P1 extends keyof NonNullable<S>
-    >(value: V, part1: P1): void;
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+    >(value: Object.Path<S, [P1]>, part1: P1): void;
     // prettier-ignore
-    updateState<
-        S extends T,
-        V extends NonNullable<NonNullable<S>[P1]>[P2],
-        P1 extends keyof NonNullable<S>,
-        P2 extends keyof NonNullable<NonNullable<S>[P1]>
-    >(value: V, part1: P1, part2: P2): void;
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>
+    >(value: Object.Path<S, [P1, P2]>, part1: P1, part2: P2): void;
     // prettier-ignore
-    updateState<
-        S extends T,
-        V extends NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3],
-        P1 extends keyof NonNullable<S>,
-        P2 extends keyof NonNullable<NonNullable<S>[P1]>,
-        P3 extends keyof NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>
-    >(value: V, part1: P1, part2: P2, part3: P3): void;
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>,
+        P3 extends keyof Object.Path<S, [P1, P2]>
+    >(value: Object.Path<S, [P1, P2, P3]>, part1: P1, part2: P2, part3: P3): void
     // prettier-ignore
-    updateState<
-        S extends T,
-        V extends NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4],
-        P1 extends keyof NonNullable<S>,
-        P2 extends keyof NonNullable<NonNullable<S>[P1]>,
-        P3 extends keyof NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>,
-        P4 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>
-    >(value: V, part1: P1, part2: P2, part3: P3, part4: P4): void;
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>,
+        P3 extends keyof Object.Path<S, [P1, P2]>,
+        P4 extends keyof Object.Path<S, [P1, P2, P3]>
+    >(value: Object.Path<S, [P1, P2, P3, P4]>, part1: P1, part2: P2, part3: P3, part4: P4): void
     // prettier-ignore
-    updateState<
-        S extends T,
-        V extends NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5],
-        P1 extends keyof NonNullable<S>,
-        P2 extends keyof NonNullable<NonNullable<S>[P1]>,
-        P3 extends keyof NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>,
-        P4 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>,
-        P5 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>
-    >(value: V, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5): void;
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>,
+        P3 extends keyof Object.Path<S, [P1, P2]>,
+        P4 extends keyof Object.Path<S, [P1, P2, P3]>,
+        P5 extends keyof Object.Path<S, [P1, P2, P3, P4]>
+    >(value: Object.Path<S, [P1, P2, P3, P4, P5]>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5): void
     // prettier-ignore
-    updateState<
-        S extends T,
-        V extends NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5]>[P6],
-        P1 extends keyof NonNullable<S>,
-        P2 extends keyof NonNullable<NonNullable<S>[P1]>,
-        P3 extends keyof NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>,
-        P4 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>,
-        P5 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>,
-        P6 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5]>
-    >(value: V, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6): void;
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>,
+        P3 extends keyof Object.Path<S, [P1, P2]>,
+        P4 extends keyof Object.Path<S, [P1, P2, P3]>,
+        P5 extends keyof Object.Path<S, [P1, P2, P3, P4]>,
+        P6 extends keyof Object.Path<S, [P1, P2, P3, P4, P5]>
+    >(value: Object.Path<S, [P1, P2, P3, P4, P5, P6]>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6): void
     // prettier-ignore
-    updateState<
-        S extends T,
-        V extends NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5]>[P6]>[P7],
-        P1 extends keyof NonNullable<S>,
-        P2 extends keyof NonNullable<NonNullable<S>[P1]>,
-        P3 extends keyof NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>,
-        P4 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>,
-        P5 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>,
-        P6 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5]>,
-        P7 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5]>[P6]>
-    >(value: V, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7): void;
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>,
+        P3 extends keyof Object.Path<S, [P1, P2]>,
+        P4 extends keyof Object.Path<S, [P1, P2, P3]>,
+        P5 extends keyof Object.Path<S, [P1, P2, P3, P4]>,
+        P6 extends keyof Object.Path<S, [P1, P2, P3, P4, P5]>,
+        P7 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6]>
+    >(value: Object.Path<S, [P1, P2, P3, P4, P5, P6, P7]>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7): void
     // prettier-ignore
-    updateState<
-        S extends T,
-        V extends NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5]>[P6]>[P7]>[P8],
-        P1 extends keyof NonNullable<S>,
-        P2 extends keyof NonNullable<NonNullable<S>[P1]>,
-        P3 extends keyof NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>,
-        P4 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>,
-        P5 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>,
-        P6 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5]>,
-        P7 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5]>[P6]>,
-        P8 extends keyof NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<NonNullable<S>[P1]>[P2]>[P3]>[P4]>[P5]>[P6]>[P7]>
-    >(value: V, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8): void;
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>,
+        P3 extends keyof Object.Path<S, [P1, P2]>,
+        P4 extends keyof Object.Path<S, [P1, P2, P3]>,
+        P5 extends keyof Object.Path<S, [P1, P2, P3, P4]>,
+        P6 extends keyof Object.Path<S, [P1, P2, P3, P4, P5]>,
+        P7 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6]>,
+        P8 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7]>
+    >(value: Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8]>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8): void
+    // prettier-ignore
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>,
+        P3 extends keyof Object.Path<S, [P1, P2]>,
+        P4 extends keyof Object.Path<S, [P1, P2, P3]>,
+        P5 extends keyof Object.Path<S, [P1, P2, P3, P4]>,
+        P6 extends keyof Object.Path<S, [P1, P2, P3, P4, P5]>,
+        P7 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6]>,
+        P8 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7]>,
+        P9 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8]>
+    >(value: Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9]>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8, part9: P9): void
+    // prettier-ignore
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>,
+        P3 extends keyof Object.Path<S, [P1, P2]>,
+        P4 extends keyof Object.Path<S, [P1, P2, P3]>,
+        P5 extends keyof Object.Path<S, [P1, P2, P3, P4]>,
+        P6 extends keyof Object.Path<S, [P1, P2, P3, P4, P5]>,
+        P7 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6]>,
+        P8 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7]>,
+        P9 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8]>,
+        P10 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9]>
+    >(value: Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8, part9: P9, part10: P10): void
+    // prettier-ignore
+    patchState<
+        P1 extends keyof Object.Path<S, []>,
+        P2 extends keyof Object.Path<S, [P1]>,
+        P3 extends keyof Object.Path<S, [P1, P2]>,
+        P4 extends keyof Object.Path<S, [P1, P2, P3]>,
+        P5 extends keyof Object.Path<S, [P1, P2, P3, P4]>,
+        P6 extends keyof Object.Path<S, [P1, P2, P3, P4, P5]>,
+        P7 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6]>,
+        P8 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7]>,
+        P9 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8]>,
+        P10 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9]>,
+        R extends Index[]
+    >(value: Object.Path<S, Tuple.Concat<[P1, P2, P3, P4, P5, P6, P7, P8, P9, P10], R>>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8, part9: P9, part10: P10, ...rest: R): void
 
-    updateState(value: any, ...path: string[]) {
+    patchState(value: any, ...path: Index[]) {
         if (path.length < 1) {
             return;
         }
         this.setState(this.getUpdatedState(value, this.state, path));
     }
 
-    private getUpdatedState(
-        value: any,
-        stateSubtree: any,
-        path: string[]
-    ): any {
+    private getUpdatedState(value: any, stateSubtree: any, path: Index[]): any {
         const key = path[0];
         if (path.length === 1) {
             return {
@@ -113,7 +135,7 @@ export class Store<T> {
                 [key]: value,
             };
         }
-        if (stateSubtree[key] === undefined) {
+        if (stateSubtree[key] === undefined || stateSubtree[key] === null) {
             return {
                 ...stateSubtree,
                 [key]: this.createStateSubtree(value, path.slice(1)),
@@ -129,7 +151,7 @@ export class Store<T> {
         };
     }
 
-    private createStateSubtree(value: any, path: string[]): any {
+    private createStateSubtree(value: any, path: Index[]): any {
         const key = path[0];
         if (path.length === 1) {
             return {
