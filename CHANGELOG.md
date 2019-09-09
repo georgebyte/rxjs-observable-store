@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Updated README to include TypeScript version requirement. 
 
-## [2.0.0] - 2019-09-09
+## 2.0.0 - 2019-09-09
 
 ### Added
 
@@ -23,3 +23,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Improved unit tests' coverage.
 * Updated npm dependencies.
 * Updated README with API documentation and better usage example.
+
+[2.0.1]: https://github.com/jurebajt/rxjs-observable-store/compare/v2.0.0...v2.0.1
