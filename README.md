@@ -14,41 +14,87 @@ Read my blog post [State management in Angular with observable store services](h
 npm install rxjs-observable-store --save
 ```
 
+## API
+
+**Store's public properties:**
+
+**`state: <S>`**  
+Current state snapshot.
+
+**`state$: Observable<S>`**  
+RxJS Observable of state.
+
+**Store's public methods:**
+
+**`setState(nextState: S): void`**  
+Set store's state to `nextState`.
+
+**`patchState(value: any, ...path: (string|number|symbol)[]): void`**  
+Set store's state at `path` to `value`.
+
+Note:  
+When using TypeScript, errors are thrown for nonexisting `path` and wrong `value` type:
+![patchState typed value](images/patchState-typed-value.gif "patchState typed value")
+
+Path autocompletion works as well (10 levels deep):
+![patchState path autocompletion](images/patchState-path-autocompletion.gif "patchState path autocompletion") 
+
 ## Usage
 
 ```typescript
 import {Store} from 'rxjs-observable-store';
 
-class TestState {
-    testProperty: string = 'initial value';
+class ExampleState {
+    exampleText = 'initial text';
+    exampleObject = {
+        property1: {
+            nestedValue: {
+                value: 1000,
+            },
+        },
+    };
 }
 
-class TestStore extends Store<TestState> {
-    constructor () {
-        super(new TestState());
+class ExampleStore extends Store<ExampleState> {
+    constructor() {
+        super(new ExampleState());
     }
 
-    updateTestProperty (): void {
+    updateExampleText() {
         this.setState({
             ...this.state,
-            testProperty: 'updated value',
+            exampleText: 'updated text',
         });
+    }
+
+    updateNestedValue() {
+        this.patchState(
+            2000,
+            'exampleObject',
+            'property1',
+            'nestedValue',
+            'value'
+        );
     }
 }
 
 class TestComponent {
-    store: TestStore;
+    store: ExampleStore;
 
-    constructor () {
-        this.store = new TestStore();
+    constructor() {
+        this.store = new ExampleStore();
 
         this.store.state$.subscribe(state => {
             console.log(state);
         });
 
         setTimeout(() => {
-            this.store.updateTestProperty();
-        }, 3000);
+            this.store.updateExampleText();
+        }, 1000);
+
+        setTimeout(() => {
+            this.store.updateNestedValue();
+        }, 2000);
     }
 }
 ```
