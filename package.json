@@ -41,17 +41,17 @@
     "testRegex": "/src/.*\\.spec\\.ts$"
   },
   "dependencies": {
-    "ts-toolbelt": "3.8.72"
+    "ts-toolbelt": "4.12.12"
   },
   "peerDependencies": {
     "rxjs": "6.x"
   },
   "devDependencies": {
-    "@types/jest": "24.0.18",
+    "@types/jest": "24.0.23",
     "jest": "24.9.0",
     "rimraf": "3.0.0",
     "rxjs": "6.5.3",
-    "ts-jest": "24.0.2",
-    "typescript": "3.6.2"
+    "ts-jest": "24.2.0",
+    "typescript": "3.7.2"
   }
 }
