@@ -1,3 +1,4 @@
+import {take} from 'rxjs/operators';
 import {Store} from './store';
 
 interface OptionalSublevel {
@@ -484,6 +485,73 @@ describe('Store', () => {
                 'fourthSublevel2'
             );
             expect(store.state).toEqual(expectedState);
+        });
+
+        it('should get values on "twoSublevels-firstSublevel1-secondSublevel1"', done => {
+            const result = [];
+            store.onChanges('twoSublevels', 'firstSublevel1', 'secondSublevel1', 'value1')
+                .pipe(take(2))
+                .subscribe({
+                    next(val) {
+                        result.push(val);
+                    },
+                    complete() {
+                        expect(result).toEqual([
+                            'twoSublevels-firstSublevel1-secondSublevel1: value1',
+                            'twoSublevels-firstSublevel1-secondSublevel1: value1 patched'
+                        ]);
+                        done();
+                    }
+                });
+
+            store.patchState(
+                'twoSublevels-firstSublevel1-secondSublevel1: value1 patched',
+                'twoSublevels',
+                'firstSublevel1',
+                'secondSublevel1',
+                'value1'
+            );
+        });
+
+        it('should skip unchanged value on "oneSublevel"', done => {
+            const result = [];
+            store.onChanges('oneSublevel', 'value1')
+                .pipe(take(2))
+                .subscribe({
+                    next(val) {
+                        result.push(val);
+                    },
+                    complete() {
+                        expect(result).toEqual([
+                            'oneSublevel: value1',
+                            'oneSublevel: value1 patched'
+                        ]);
+                        done();
+                    }
+                });
+
+            store.patchState('oneSublevel: value1', 'oneSublevel', 'value1');
+            store.patchState('oneSublevel: value1 patched', 'oneSublevel', 'value1');
+        });
+
+        it('should get null value on "nullableTwoSublevels-firstSublevel1"', done => {
+            const result = [];
+            store.onChanges('nullableTwoSublevels', 'firstSublevel1')
+                .pipe(take(2))
+                .subscribe({
+                    next(val) {
+                        result.push(val);
+                    },
+                    complete() {
+                        expect(result).toEqual([
+                            null,
+                            {secondSublevel1: {value1: ''}}
+                        ]);
+                        done();
+                    }
+                });
+
+            store.patchState({secondSublevel1: {value1: ''}}, 'nullableTwoSublevels', 'firstSublevel1');
         });
     });
 });
