@@ -553,5 +553,48 @@ describe('Store', () => {
 
             store.patchState({secondSublevel1: {value1: ''}}, 'nullableTwoSublevels', 'firstSublevel1');
         });
+
+        it('should get undefined value on "nullableTwoSublevels" when "firstSublevel1" === null', done => {
+            const result = [];
+            store.onChanges('nullableTwoSublevels', 'firstSublevel1', 'secondSublevel1', 'value1')
+                .pipe(take(2))
+                .subscribe({
+                    next(val) {
+                        result.push(val);
+                    },
+                    complete() {
+                        expect(result).toEqual([
+                            undefined,
+                            'value1'
+                        ]);
+                        done();
+                    }
+                });
+
+            store.patchState({secondSublevel1: {value1: 'value1'}}, 'nullableTwoSublevels', 'firstSublevel1');
+        });
+
+        it('should skip unchanged object (same reference) on "oneSublevel"', done => {
+            const result = [];
+            const initialValue = {value1: 'value1', value2: 'value2'};
+            store.patchState(initialValue, 'oneSublevel');
+            store.onChanges('oneSublevel')
+                .pipe(take(2))
+                .subscribe({
+                    next(val) {
+                        result.push(val);
+                    },
+                    complete() {
+                        expect(result).toEqual([
+                            initialValue,
+                            {value1: 'value1 patched', value2: 'value2'}
+                        ]);
+                        done();
+                    }
+                });
+
+            store.patchState(initialValue, 'oneSublevel');
+            store.patchState({value1: 'value1 patched', value2: 'value2'}, 'oneSublevel');
+        });
     });
 });
