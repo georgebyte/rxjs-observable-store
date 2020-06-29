@@ -91,6 +91,9 @@ RxJS Observable of state.
 
 **Store's public methods:**
 
+**`onChanges(...path: (string|number|symbol)[]): Observable<any>`**  
+Subscribe on partial state changes.
+
 **`setState(nextState: S): void`**  
 Set store's state to `nextState`.
 
