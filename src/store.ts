@@ -228,9 +228,16 @@ export class Store<S extends object> {
 
     onChanges(...path: Index[]) {
         return this.state$.pipe(
-            map(state => path.reduce((result, part) => result?.[part], state)),
+            map(state =>
+                path.reduce((result, part) => {
+                    if (result === undefined || result === null) {
+                        return undefined;
+                    }
+                    return result[part];
+                }, state)
+            ),
             distinctUntilChanged()
-        )
+        );
     }
 
     private getUpdatedState(value: any, stateSubtree: any, path: Index[]): any {
