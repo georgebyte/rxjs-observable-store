@@ -2,11 +2,11 @@
 
 [![npm](https://img.shields.io/npm/v/rxjs-observable-store.svg?style=flat-square)](https://www.npmjs.com/package/rxjs-observable-store)
 [![npm](https://img.shields.io/npm/dm/rxjs-observable-store.svg?style=flat-square)](https://www.npmjs.com/package/rxjs-observable-store)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/jurebajt/rxjs-observable-store/blob/master/LICENSE)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/georgebyte/rxjs-observable-store/blob/master/LICENSE)
 
 A state management solution implemented using RxJS to mimic Redux architecture.
 
-Read my blog post [State management in Angular with observable store services](https://jurebajt.com/state-management-in-angular-with-observable-store-services/) to learn more about how to use the `rxjs-observable-store` package to manage state in front-end applications.
+Read my blog post [State management in Angular with observable store services](https://georgebyte.com/state-management-in-angular-with-observable-store-services/) to learn more about how to use the `rxjs-observable-store` package to manage state in front-end applications.
 
 ## Getting started
 
