@@ -65,7 +65,13 @@ class TestComponent {
         this.store = new ExampleStore();
 
         this.store.state$.subscribe(state => {
+            // Logs the updated state on every state change
             console.log(state);
+        });
+
+        this.store.onChanges('exampleObject', 'property1', 'nestedValue', 'value').subscribe(value => {
+            // Logs the updated value only when state.exampleObject.property1.nestedValue.value changes
+            console.log(value);
         });
 
         setTimeout(() => {
@@ -92,13 +98,14 @@ RxJS Observable of state.
 **Store's public methods:**
 
 **`onChanges(...path: (string|number|symbol)[]): Observable<any>`**  
-Subscribe on partial state changes.
+Get an RxJS Observable of state at `path` used to subscribe to partial state changes.
 
 **`setState(nextState: S): void`**  
 Set store's state to `nextState`.
 
 **`patchState(value: any, ...path: (string|number|symbol)[]): void`**  
-Set store's state at `path` to `value`.  
+Set store's state at `path` to `value`.
+
 Notes:  
 
 * When using TypeScript, errors are thrown for nonexisting `path` and wrong `value` type:  
