@@ -11,14 +11,14 @@
     "state management"
   ],
   "license": "MIT",
-  "author": "Jure Bajt",
-  "homepage": "https://jurebajt.com/state-management-in-angular-with-observable-store-services/",
+  "author": "George Byte (Jure Bajt)",
+  "homepage": "https://georgebyte.com/state-management-in-angular-with-observable-store-services/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jurebajt/rxjs-observable-store.git"
+    "url": "git+https://github.com/georgebyte/rxjs-observable-store.git"
   },
   "bugs": {
-    "url": "https://github.com/jurebajt/rxjs-observable-store/issues"
+    "url": "https://github.com/georgebyte/rxjs-observable-store/issues"
   },
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
