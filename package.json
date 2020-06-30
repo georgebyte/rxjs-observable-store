@@ -11,7 +11,10 @@
     "state management"
   ],
   "license": "MIT",
-  "author": "George Byte (Jure Bajt)",
+  "author": {
+    "name": "George Byte",
+    "url": "https://georgebyte.com"
+  },
   "homepage": "https://georgebyte.com/state-management-in-angular-with-observable-store-services/",
   "repository": {
     "type": "git",
