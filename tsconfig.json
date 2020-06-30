@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es2015"],
-    "module": "commonjs",
+    "target": "ES5",
+    "module": "ES2015",
+    "moduleResolution": "Node",
     "declaration": true,
-    "outDir": "./lib",
+    "outDir": "./lib/esm",
     "strict": false
   },
   "include": [
