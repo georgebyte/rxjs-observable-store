@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-* Removed one level of overloads for `setState`/`onChanges` methods to prevent `error TS2589: Type instantiation is excessively deep and possibly infinite.` error when using `rxjs-observable-store` with TypeScript versions above `3.9.x`.
+* Removed one level of overloads for `patchState`/`onChanges` methods to prevent `error TS2589: Type instantiation is excessively deep and possibly infinite.` error when using `rxjs-observable-store` with TypeScript versions above `3.9.x`.
 
 ## [3.0.3] - 2020-06-30
 
