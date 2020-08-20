@@ -110,5 +110,5 @@ Notes:
 
 * When using TypeScript, errors are thrown for nonexisting `path` and wrong `value` type:  
 ![patchState typed value](images/patchState-typed-value.gif "patchState typed value")  
-* Path autocompletion works as well (10 levels deep):  
+* Path autocompletion works as well (9 levels deep):  
 ![patchState path autocompletion](images/patchState-path-autocompletion.gif "patchState path autocompletion")

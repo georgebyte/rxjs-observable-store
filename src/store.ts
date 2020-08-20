@@ -104,22 +104,8 @@ export class Store<S extends object> {
         P7 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6]>,
         P8 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7]>,
         P9 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8]>,
-        P10 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9]>
-    >(value: Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8, part9: P9, part10: P10): void
-    // prettier-ignore
-    patchState<
-        P1 extends keyof Object.Path<S, []>,
-        P2 extends keyof Object.Path<S, [P1]>,
-        P3 extends keyof Object.Path<S, [P1, P2]>,
-        P4 extends keyof Object.Path<S, [P1, P2, P3]>,
-        P5 extends keyof Object.Path<S, [P1, P2, P3, P4]>,
-        P6 extends keyof Object.Path<S, [P1, P2, P3, P4, P5]>,
-        P7 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6]>,
-        P8 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7]>,
-        P9 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8]>,
-        P10 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9]>,
         R extends Index[]
-    >(value: Object.Path<S, Tuple.Concat<[P1, P2, P3, P4, P5, P6, P7, P8, P9, P10], R>>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8, part9: P9, part10: P10, ...rest: R): void
+    >(value: Object.Path<S, Tuple.Concat<[P1, P2, P3, P4, P5, P6, P7, P8, P9], R>>, part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8, part9: P9, ...rest: R): void
 
     patchState(value: any, ...path: Index[]) {
         if (path.length < 1) {
@@ -209,22 +195,8 @@ export class Store<S extends object> {
         P7 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6]>,
         P8 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7]>,
         P9 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8]>,
-        P10 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9]>
-    >(part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8, part9: P9, part10: P10): Observable<Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]>>
-    // prettier-ignore
-    onChanges<
-        P1 extends keyof Object.Path<S, []>,
-        P2 extends keyof Object.Path<S, [P1]>,
-        P3 extends keyof Object.Path<S, [P1, P2]>,
-        P4 extends keyof Object.Path<S, [P1, P2, P3]>,
-        P5 extends keyof Object.Path<S, [P1, P2, P3, P4]>,
-        P6 extends keyof Object.Path<S, [P1, P2, P3, P4, P5]>,
-        P7 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6]>,
-        P8 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7]>,
-        P9 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8]>,
-        P10 extends keyof Object.Path<S, [P1, P2, P3, P4, P5, P6, P7, P8, P9]>,
         R extends Index[]
-    >(part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8, part9: P9, part10: P10, ...rest: R): Observable<Object.Path<S, Tuple.Concat<[P1, P2, P3, P4, P5, P6, P7, P8, P9, P10], R>>>
+    >(part1: P1, part2: P2, part3: P3, part4: P4, part5: P5, part6: P6, part7: P7, part8: P8, part9: P9, ...rest: R): Observable<Object.Path<S, Tuple.Concat<[P1, P2, P3, P4, P5, P6, P7, P8, P9], R>>>
 
     onChanges(...path: Index[]) {
         return this.state$.pipe(
